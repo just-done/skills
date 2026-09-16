@@ -1,0 +1,20 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "just-skills",
+  "owner": {
+    "name": "Just.",
+    "email": "support@just-done.ai",
+    "url": "https://justdomain.ai"
+  },
+  "metadata": {
+    "description": "Just plugins for Claude Code and Cowork."
+  },
+  "plugins": [
+    {
+      "name": "just",
+      "source": "./",
+      "description": "Just Domain is a domain registrar. This plugin proposes names for the business you are building, checks whether the matching domain names are available and what registering and renewing each one costs, and returns a link to register an available name on justdomain.ai. It also checks whether a domain you already own at another registrar could move to Just Domain. Read-only: no order is placed and no payment is taken in the chat; you sign in and pay on justdomain.ai in your browser. Connects only to the hosted Just Domain MCP server at mcp.justdomain.ai; no account or API key is needed to search, and the plugin sends no telemetry. Privacy: https://justdomain.ai/privacy",
+      "category": "productivity"
+    }
+  ]
+}
