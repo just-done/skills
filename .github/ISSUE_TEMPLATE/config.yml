@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/just-done/skills/blob/main/SECURITY.md
+    about: Please report security issues privately rather than in a public issue.
+  - name: Help with a Just Domain account or order
+    url: https://justdomain.ai/contact
+    about: Questions about registrations, payments or your account are handled by Just Domain support.

@@ -1,0 +1,57 @@
+name: Bug report
+description: Something in the plugin does not work as documented
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a problem. Please do not report security vulnerabilities here; follow [SECURITY.md](https://github.com/just-done/skills/blob/main/SECURITY.md) instead.
+  - type: dropdown
+    id: client
+    attributes:
+      label: Client
+      options:
+        - Claude Code
+        - Cowork
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: client-version
+    attributes:
+      label: Client version
+      placeholder: "2.1.273"
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      description: Run `claude plugin details just@just-skills` to find it.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: textarea
+    id: prompt
+    attributes:
+      label: Prompt
+      description: What you asked. Remove any personal information first.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Error messages, screenshots or the output of `/mcp`.
