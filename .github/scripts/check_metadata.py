@@ -36,8 +36,9 @@ PLUGIN_NAME_PATTERN = re.compile(r"[a-z0-9][a-z0-9-]{1,63}")
 HIDDEN_UNICODE = re.compile("[\u200b-\u200f\ufeff\u202a-\u202e\u2066-\u2069]")
 
 HANDOFF_SENTENCE = (
-    "Nothing is ordered or charged here, and the name is not reserved for you "
-    "until you finish checkout."
+    "Nothing is ordered, reserved or charged here. The price shown at "
+    "checkout is the one that applies, and the name is registered to you "
+    "only after checkout is complete and the registration is confirmed."
 )
 
 # Keep the plugin payload limited to manifests, skills and documentation.
