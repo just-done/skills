@@ -8,8 +8,8 @@ security issue, follow [SECURITY.md](SECURITY.md) instead of opening an issue.
 
 ## Ways to contribute
 
-- **Report a bug.** Open an issue using the bug report form. Include the client and its
-  version, the prompt you used and what happened.
+- **Report a bug.** Open an issue using the bug report form. Include the client (Claude Code
+  or Cowork), its version, the prompt you used and what happened.
 - **Suggest an improvement.** Open an issue using the feature request form before starting a
   larger change, so the approach can be agreed first.
 - **Submit a pull request.** Small, focused fixes to skill text and documentation are welcome
@@ -62,6 +62,10 @@ claude --plugin-dir .
 Run `/mcp` and confirm that `plugin:just:just-domain` is connected, then try the example
 prompts from the [README](README.md). After editing a skill, run `/reload-plugins` to pick up
 the change.
+
+To test in Cowork, archive your latest commit with `git archive --format=zip -o just.zip HEAD`
+and upload it under **Customize** > **Plugins** > **Add** > **Upload plugin**. Cowork rejects a
+plugin description longer than 500 characters.
 
 ## Writing skills
 

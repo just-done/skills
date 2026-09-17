@@ -30,6 +30,12 @@ Connectors Directory, published in the MCP Registry as
 /reload-plugins
 ```
 
+### Cowork
+
+1. In the Claude app or on claude.ai, open **Customize**, then **Plugins**.
+2. Choose **Add**, then **Add marketplace**. Enter `just-done/skills` and choose **Sync**.
+3. Install **Just.** from the marketplace and make sure it is turned on.
+
 ## What you'll need to connect
 
 Nothing. The plugin connects to the hosted Just Domain MCP server at
@@ -38,11 +44,11 @@ justdomain.ai only when you register a name, in your browser.
 
 ## How it works
 
-Ask in plain words. Claude checks the domains with the Just Domain server and shows which
-are available and what each costs to register and renew. When you pick one, you get a
-link to register it: you create an account or sign in, then pay on justdomain.ai. The
-server's two tools, `search_domains` and `check_domain_transfer`, are read-only: neither
-can place an order or change a domain.
+Ask in plain words, in Claude Code or Cowork. Claude checks the domains with the Just
+Domain server and shows which are available and what each costs to register and renew.
+When you pick one, you get a link to register it: you create an account or sign in, then
+pay on justdomain.ai. The server's two tools, `search_domains` and
+`check_domain_transfer`, are read-only: neither can place an order or change a domain.
 
 ## Skills
 
@@ -107,7 +113,10 @@ how long it is kept and how to ask us to delete it.
 ## Troubleshooting
 
 - **Tools are not listed.** In Claude Code, run `/reload-plugins`, then check `/mcp` for
-  `plugin:just:just-domain`.
+  `plugin:just:just-domain`. In Cowork, open **Customize**, then **Plugins**, and check that
+  **Just.** is turned on and its Just Domain connector shows **Connected**.
+- **Cowork asks before each search.** In **Manual** mode, Cowork asks before it uses a tool.
+  Choose **Allow once**, or pick another mode for the task.
 - **The registration link opens a sign-up page.** This is expected: create an account, or
   sign in if you already have one, and you return to checkout on justdomain.ai with the
   same domain. Opening the link does not charge anything.

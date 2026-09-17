@@ -12,6 +12,7 @@ body:
       label: Client
       options:
         - Claude Code
+        - Cowork
         - Other
     validations:
       required: true
