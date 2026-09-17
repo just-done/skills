@@ -1,25 +1,24 @@
-# Just plugin
+# Just.
 
 [![Validate](https://github.com/just-done/skills/actions/workflows/validate.yml/badge.svg)](https://github.com/just-done/skills/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Just Domain is a domain registrar. This plugin, for Claude Code and Cowork, proposes
-names for the business you are building, checks whether the matching domain names are
-available and what registering and renewing each one costs, and hands you a link to
-register the one you choose on justdomain.ai. It can also check whether a domain you
-already own at another registrar could move to Just Domain.
+Find a name and a domain for the business you are building. Ask Claude in plain words:
+Just Domain checks which domain names are available, shows what each costs to register
+and renew, and gives you a link to register the one you choose on justdomain.ai.
 
-Registration happens on justdomain.ai: you sign in and pay there, in your browser. No
-order is placed and no payment is taken in the chat.
+- **No account needed to search.** Install the plugin and ask.
+- **Nothing is bought in the chat.** You register and pay on justdomain.ai, in your browser.
+- **Already own a domain?** Ask whether anything blocks moving it to Just Domain and what
+  the move costs.
 
-> **Important**: This plugin checks domain availability and pricing. A domain being
-> available is not a company registration, a trademark clearance or legal advice.
-> Registration, payment, renewals and moving a domain out happen on justdomain.ai in
-> your browser, never in the chat; moving a domain in is arranged with support.
+> **Important**: A domain being available is not a trademark clearance, a company
+> registration or legal advice.
 
-Just Domain is operated by Just Done LLC. The bundled server is the Just Domain connector
-listed in the Claude Connectors Directory and in the MCP Registry as
-`ai.justdomain/just-domain`.
+Just Domain is operated by Just Done LLC. The plugin uses the same server as the
+[Just Domain connector](https://claude.ai/directory/connectors/just-domain) in the Claude
+Connectors Directory, published in the MCP Registry as
+[`ai.justdomain/just-domain`](https://registry.modelcontextprotocol.io/v0/servers/ai.justdomain%2Fjust-domain/versions/latest).
 
 ## Installation
 
@@ -34,45 +33,48 @@ listed in the Claude Connectors Directory and in the MCP Registry as
 ## What you'll need to connect
 
 Nothing. The plugin connects to the hosted Just Domain MCP server at
-`https://mcp.justdomain.ai/` with no account, key or sign-in. You sign in on
+`https://mcp.justdomain.ai/` with no account, key or sign-in. You need an account on
 justdomain.ai only when you register a name, in your browser.
 
 ## How it works
 
-Two read-only tools and two skills. `search_domains` returns availability, the
-registration and renewal price for one full term, and a registration link for available
-names. `check_domain_transfer` is a transfer precheck for one domain you already own.
-The skills describe when to use each tool, how to present the results and where to stop.
+Ask in plain words. Claude checks the domains with the Just Domain server and shows which
+are available and what each costs to register and renew. When you pick one, you get a
+link to register it: you create an account or sign in, then pay on justdomain.ai. The
+server's two tools, `search_domains` and `check_domain_transfer`, are read-only: neither
+can place an order or change a domain.
 
 ## Skills
 
-| Skill | What it does | Example requests |
-| --- | --- | --- |
-| `/just:find-a-name` | Proposes names for your business or project, checks the exact domains for your shortlist in one call, and gives you a link to register the one you pick. | "I need a name for my business", "find me a name and a domain for my bakery" |
-| `/just:just-domain` | Checks specific domains: available or taken, first-term price, renewal, and a link to register. Checks whether a domain you own elsewhere could move to Just Domain: blockers, current registrar, DNS continuity and transfer price. | "is acme.com available", "check acme.io and acme.ai", "can I move my domain to Just Domain" |
+Claude uses a skill when your request matches it, or you can run one by name.
+
+| Skill | What it does |
+| --- | --- |
+| `/just:find-a-name` | Suggests names for your business, checks their domains, shows which ones you can register and gives you a link to register the one you pick. |
+| `/just:just-domain` | Checks specific domains: whether each is available, what it costs to register and renew, and a link to register it. Also checks whether anything blocks moving a domain you own elsewhere to Just Domain, and what the move costs. |
 
 ## Example prompts
 
 - "Is brightcrumb.co available, and what does it cost?"
 - "I'm opening a sourdough bakery in Austin. Help me find a name and a domain."
 - "Check acme.com, acme.io and acme.ai and tell me which ones I can register."
-- "Can I move example.org to Just Domain, and what would it cost?"
+- "Can I move acme.com to Just Domain, and what would it cost?"
 
 ## What costs money and where you pay
 
-Every check needs no account and costs nothing. The only paid step is registering (and
-later renewing) a domain, and that happens on justdomain.ai in your browser. Prices are
-shown as totals for one full registration term of that ending: one year on most endings,
-two years on .ai.
+Checking names is free and needs no account. You pay only to register a domain, and later
+to renew it, on justdomain.ai in your browser. Prices are totals for one registration
+term: one year on most endings and longer on a few, such as .ai; every result states its
+term.
 
-## What this plugin will never do
+## What this plugin does not do
 
 - Place an order, take a payment or reserve a name. There is no purchase tool on the
   server.
 - Renew a domain, change DNS or nameservers, or report your renewal schedule; those live
   in your dashboard on justdomain.ai.
-- Start a transfer. It reports whether a domain could move and what it would cost; the
-  move itself is arranged by Just Domain support (support@just-done.ai).
+- Start a transfer. It reports whether anything blocks moving a domain and what the move
+  would cost; the move itself is arranged by Just Domain support (support@just-done.ai).
 - Request, hold or relay an authorization (EPP) code. Unlocking a domain and issuing its
   code are owner actions in a browser; no assistant is ever handed a code.
 - Give trademark, legal or brand-conflict advice, look up who owns a taken domain, or
@@ -84,28 +86,31 @@ two years on .ai.
 | --- | --- | --- | --- |
 | `just-domain` | `https://mcp.justdomain.ai/` | none | `search_domains`, `check_domain_transfer` (both read-only) |
 
-The server also exposes the prompts `jd-check` and `jd-transfer-check` and the resources
-`domain://faq` and `ui://just-domain/search-results-v4.html`, which Claude Code lists
-automatically.
+The server also offers two prompts, `jd-check` and `jd-transfer-check`, and an FAQ
+resource, `domain://faq`.
 
 ## Privacy and data
 
-The only network destination is the hosted Just Domain MCP server (`mcp.justdomain.ai`).
-The plugin sends the domain names you ask about and, like any web request, your client's
-network address and user agent reach the server; the plugin itself sends no telemetry.
-The server keeps short-lived operational logs, and the registration link it returns
-carries a pseudonymous identifier (a one-way hash, never a raw address) so that a later
-registration can be attributed to the search. Both are described in the privacy policy:
-https://justdomain.ai/privacy
+The plugin runs no code of its own and connects to one place: the Just Domain server at
+`mcp.justdomain.ai`. When you ask about a domain, Claude sends the names to that server,
+which, like any web service, also receives your network address and user agent. For each
+search, the server sends these to our product analytics: the names checked, how many
+results came back and whether any were available, which assistant and version made the
+request, an identifier for that chat session, and a pseudonymous identifier derived from
+your network address and user agent. Failed searches and request diagnostics also go to
+our error monitoring, and the server keeps operational logs. The registration link
+carries the same pseudonymous identifier: if you open it and sign in, the searches
+recorded under it are linked to your account in our analytics. The
+[privacy policy](https://justdomain.ai/privacy) describes this data, why it is collected,
+how long it is kept and how to ask us to delete it.
 
 ## Troubleshooting
 
-- **Tools are not listed.** In Claude Code, run `/reload-plugins` and check `/mcp` for
-  `plugin:just:just-domain`. In other clients, restart the session.
-- **The connector shows as Custom.** The server URL must be exactly
-  `https://mcp.justdomain.ai/`.
-- **The registration link asks you to sign in.** This is expected. You return to the
-  checkout page afterwards, and opening the link does not charge anything.
+- **Tools are not listed.** In Claude Code, run `/reload-plugins`, then check `/mcp` for
+  `plugin:just:just-domain`.
+- **The registration link opens a sign-up page.** This is expected: create an account, or
+  sign in if you already have one, and you return to checkout on justdomain.ai with the
+  same domain. Opening the link does not charge anything.
 
 ## Support
 
@@ -121,5 +126,6 @@ see [SECURITY.md](SECURITY.md).
 
 ## License
 
-Released under the [MIT License](LICENSE). Just, Just. and Just Domain are trademarks of
-Just Done LLC; the license covers the contents of this repository, not the trademarks.
+Released under the [MIT License](LICENSE). "Just", "Just." and "Just Domain" are
+trademarks of Just Done LLC; the license covers the contents of this repository, not the
+trademarks.
