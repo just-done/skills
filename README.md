@@ -106,9 +106,9 @@ request, an identifier for that chat session, and a pseudonymous identifier deri
 your network address and user agent. Failed searches and request diagnostics also go to
 our error monitoring, and the server keeps operational logs. The registration link
 carries the same pseudonymous identifier: if you open it and sign in, the searches
-recorded under it are linked to your account in our analytics. The
-[privacy policy](https://justdomain.ai/privacy) describes this data, why it is collected,
-how long it is kept and how to ask us to delete it.
+recorded under it are linked to your account in our analytics. See the
+[privacy policy](https://justdomain.ai/privacy), and send privacy requests to
+privacy@just-done.ai.
 
 ## Troubleshooting
 
