@@ -13,7 +13,7 @@
     {
       "name": "just",
       "source": "./",
-      "description": "Find a name and a domain for the business you are building. Just Domain checks which domain names are available and what each costs to register and renew, and gives you a link to register the one you choose on justdomain.ai. It also checks whether anything blocks moving a domain you own elsewhere to Just Domain; the move itself is arranged by email with Just Domain support. Read-only: no order is placed and no payment is taken in the chat; you register and pay on justdomain.ai in your browser. No account is needed to search.",
+      "description": "Find a name and a domain for the business you are building. Just Domain checks which domain names are available and what each costs to register and renew, and gives you a link to register the one you choose on justdomain.ai. It also checks whether anything blocks moving a domain you own elsewhere to Just Domain; support arranges the move by email. Read-only: no order is placed and no payment is taken in the chat; you register and pay on justdomain.ai. No account is needed to search.",
       "category": "productivity"
     }
   ]

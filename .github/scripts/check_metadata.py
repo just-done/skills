@@ -43,6 +43,8 @@ ALLOWED_PLUGIN_KEYS = {
     "mcpServers",
 }
 ALLOWED_SKILL_KEYS = {"name", "description", "license"}
+# claude.ai and Cowork reject a plugin whose description is longer than this on upload.
+MAX_PLUGIN_DESCRIPTION = 500
 MAX_SKILL_NAME = 64
 MAX_SKILL_DESCRIPTION = 1024
 MAX_SKILL_BODY_LINES = 500
@@ -161,8 +163,8 @@ def check_manifests() -> None:
         error(plugin_path, f"plugin name must remain '{PLUGIN_NAME}'")
     if not PLUGIN_NAME_PATTERN.fullmatch(name):
         error(plugin_path, "plugin name must be lowercase letters, digits and hyphens")
-    if description != description.strip() or not 10 <= len(description) <= 2000:
-        error(plugin_path, "description must be 10 to 2000 characters without surrounding whitespace")
+    if description != description.strip() or not 10 <= len(description) <= MAX_PLUGIN_DESCRIPTION:
+        error(plugin_path, f"description must be 10 to {MAX_PLUGIN_DESCRIPTION} characters without surrounding whitespace")
     if plugin.get("mcpServers") != MCP_CONFIG:
         error(plugin_path, f"mcpServers must be {MCP_CONFIG}")
 
