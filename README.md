@@ -34,7 +34,7 @@ Connectors Directory, published in the MCP Registry as
 
 1. In the Claude app or on claude.ai, open **Customize**, then **Plugins**.
 2. Choose **Add**, then **Add marketplace**. Enter `just-done/skills` and choose **Sync**.
-3. Install **Just.** from the marketplace and make sure it is turned on.
+3. Under **Discover**, choose **Add** next to **Just.**, and make sure it is turned on.
 
 ## What you'll need to connect
 
