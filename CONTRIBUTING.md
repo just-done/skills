@@ -74,7 +74,7 @@ the change.
 - Describe only what the MCP server returns. Every price shown to a user must come from the
   tool response.
 - Keep the registration hand-off wording identical across skills. CI checks this.
-- Write in plain language, keep prices out of prose, and use hyphens rather than em dashes.
+- Write in plain language and short sentences.
 
 ## Stable identifiers
 
