@@ -7,13 +7,13 @@
     "url": "https://justdomain.ai"
   },
   "metadata": {
-    "description": "Just plugins for Claude Code and Cowork."
+    "description": "Plugins from Just, the maker of Just Domain."
   },
   "plugins": [
     {
       "name": "just",
       "source": "./",
-      "description": "Just Domain is a domain registrar. This plugin proposes names for the business you are building, checks whether the matching domain names are available and what registering and renewing each one costs, and returns a link to register an available name on justdomain.ai. It also checks whether a domain you already own at another registrar could move to Just Domain. Read-only: no order is placed and no payment is taken in the chat; you sign in and pay on justdomain.ai in your browser. Connects only to the hosted Just Domain MCP server at mcp.justdomain.ai; no account or API key is needed to search, and the plugin sends no telemetry. Privacy: https://justdomain.ai/privacy",
+      "description": "Find a name and a domain for the business you are building. Just Domain checks which domain names are available and what each costs to register and renew, and gives you a link to register the one you choose on justdomain.ai. It also checks whether anything blocks moving a domain you own elsewhere to Just Domain; the move itself is arranged by email with Just Domain support. Read-only: no order is placed and no payment is taken in the chat; you register and pay on justdomain.ai in your browser. No account is needed to search.",
       "category": "productivity"
     }
   ]
