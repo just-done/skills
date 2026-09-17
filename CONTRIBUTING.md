@@ -25,12 +25,18 @@ security issue, follow [SECURITY.md](SECURITY.md) instead of opening an issue.
 | `skills/<name>/SKILL.md`          | One skill per directory                                          |
 | `.github/workflows/validate.yml`  | Checks that run on every pull request                            |
 | `.github/scripts/`                | Helper scripts used by those checks                              |
+| `.github/requirements.txt`        | Pinned Python tools for those checks                             |
 
 ## Prerequisites
 
 - [Claude Code](https://code.claude.com/docs/en/overview), for the `claude` CLI
-- Node.js 22 or later, for the Agent Skills reference validator
-- Python 3.12 or later with PyYAML, for the metadata checks
+- Python 3.12 or later, with the pinned tools from `.github/requirements.txt`: PyYAML for the
+  metadata checks and [skills-ref](https://github.com/anthropics/agentskills), the Agent Skills
+  reference validator
+
+```sh
+python3 -m pip install --require-hashes -r .github/requirements.txt
+```
 
 ## Validating a change
 
@@ -39,7 +45,7 @@ Run the same checks as CI before opening a pull request:
 ```sh
 claude plugin validate .claude-plugin/plugin.json --strict
 claude plugin validate . --strict
-for dir in skills/*/; do npx --yes skills-ref@0.1.5 validate "$dir"; done
+for dir in skills/*/; do agentskills validate "$dir"; done
 python3 .github/scripts/check_metadata.py
 ```
 

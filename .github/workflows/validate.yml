@@ -38,7 +38,7 @@ jobs:
       - name: Install tools
         run: |
           npm install --global @anthropic-ai/claude-code@2.1.273
-          python -m pip install --disable-pip-version-check pyyaml==6.0.3
+          python -m pip install --disable-pip-version-check --require-hashes -r .github/requirements.txt
 
       - name: Check JSON syntax
         run: git ls-files -z '*.json' | xargs -0 -n1 jq empty
@@ -49,10 +49,10 @@ jobs:
       - name: Validate marketplace manifest
         run: claude plugin validate . --strict
 
-      - name: Validate skills against the Agent Skills specification
+      - name: Validate skills with the Agent Skills reference validator
         run: |
           for dir in skills/*/; do
-            npx --yes skills-ref@0.1.5 validate "$dir"
+            agentskills validate "$dir"
           done
 
       - name: Check metadata consistency
