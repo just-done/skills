@@ -7,6 +7,14 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- `trademark-check` skill: checks whether a name is taken as a trademark in the US, EU and
+  Israeli registers with `check_trademark`, and reports the verdict, the conflicting marks,
+  the classes they share and the date each register was read, with the answer's notice.
+  It never calls a name clear unless it was checked in the conversation and the registers
+  were read today or yesterday, and says plainly when a name could not be checked yet.
+
 ### Changed
 
 - `find-a-name` checks each shortlisted name against the trademark registers with
