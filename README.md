@@ -13,11 +13,14 @@ you ask, and helps you connect your domain.
 - **Publishing is free.** Sign in to Just Publish once and every site is filed under your
   account.
 - **Nothing is bought in the chat.** You register and pay on justdomain.ai, in your browser.
+- **Is the name taken as a trademark?** Ask, and Claude searches the US, EU and Israeli
+  trademark registers with [Open Trademarks](https://opentrademarks.org), showing the
+  marks it found and the date each register was last read.
 - **Already own a domain?** Ask whether anything blocks moving it to Just Domain and what
   the move costs, or connect it to your site.
 
-> **Important**: A domain being available is not a trademark clearance, a company
-> registration or legal advice.
+> **Important**: A domain being available is not a trademark clearance. A trademark check
+> is a register search, not legal advice, and neither is a company registration.
 
 Just Domain and Just Publish are operated by Just Done LLC. The plugin uses the same
 server as the [Just Domain connector](https://claude.ai/directory/connectors/just-domain)
@@ -57,9 +60,11 @@ Ask in plain words, in Claude Code or Cowork.
 
 - **Domains.** Claude checks the domains with the Just Domain server and shows which are
   available and what each costs to register and renew. When you pick one, you get a link
-  to register it: you create an account or sign in, then pay on justdomain.ai. The
-  server's two tools, `search_domains` and `check_domain_transfer`, are read-only: neither
-  can place an order or change a domain.
+  to register it: you create an account or sign in, then pay on justdomain.ai.
+- **Trademarks.** When you ask about a trademark, or shortlist names to name a business,
+  Claude checks each name with `check_trademark` first. The Just Domain server's three
+  tools, `search_domains`, `check_domain_transfer` and `check_trademark`, are read-only:
+  none can place an order, change a domain or file a trademark.
 - **Publishing.** Claude sends your site's files to the Just Publish server and gives you
   the live link, at `https://{name}.justpublish.site/`. To change a site later, Claude
   finds it under your account, reads the files that are live and writes only the ones
@@ -72,9 +77,10 @@ Claude uses a skill when your request matches it, or you can run one by name.
 
 | Skill | What it does |
 | --- | --- |
-| `/just:find-a-name` | Suggests names for your business, checks their domains, shows which ones you can register and gives you a link to register the one you pick. |
+| `/just:find-a-name` | Suggests names for your business, checks your shortlist against trademark registers, checks the domains of the names that remain, shows which ones you can register and gives you a link to register the one you pick. |
 | `/just:just-domain` | Checks specific domains: whether each is available, what it costs to register and renew, and a link to register it. Also checks whether anything blocks moving a domain you own elsewhere to Just Domain, and what the move costs. |
 | `/just:just-publish` | Publishes a static website to a live link, lists your sites, changes a site that is already live, and explains how to put it on your own domain. |
+| `/just:trademark-check` | Checks whether a name is taken as a trademark in the US, EU and Israeli registers: the verdict, the marks it found, the classes they share and the date each register was last read. |
 
 ## Example prompts
 
@@ -85,13 +91,14 @@ Claude uses a skill when your request matches it, or you can run one by name.
 - "Publish this site and give me the link."
 - "Change the opening hours on my bakery site to 7 to 3."
 - "Put my site on brightcrumb.co."
+- "Is Brightcrumb taken as a trademark? It's for a bakery."
 
 ## What costs money and where you pay
 
-Checking names is free and needs no account. You pay only to register a domain, and later
-to renew it, on justdomain.ai in your browser. Prices are totals for one registration
-term: one year on most endings and longer on a few, such as .ai; every result states its
-term.
+Checking names, domains and trademarks is free and needs no account. You pay only to
+register a domain, and later to renew it, on justdomain.ai in your browser. Prices are
+totals for one registration term: one year on most endings and longer on a few, such as
+.ai; every result states its term.
 
 Publishing is free, for as many sites as you like. Connecting your own domain to a site
 comes with Builder, the paid Just Publish plan for that site; see
@@ -112,14 +119,16 @@ dashboard on justpublish.ai, in your browser.
   would cost; the move itself is arranged by Just Domain support (support@just-done.ai).
 - Request, hold or relay an authorization (EPP) code. Unlocking a domain and issuing its
   code are owner actions in a browser; no assistant is ever handed a code.
-- Give trademark, legal or brand-conflict advice, look up who owns a taken domain, or
-  value a domain.
+- Give legal or brand-conflict advice, or tell you a name is clear to use. A trademark
+  check is a register search; it does not see unregistered use, state registers or logos.
+- File, watch or oppose a trademark.
+- Look up who owns a taken domain, or value a domain.
 
 ## MCP server
 
 | Server | Endpoint | Sign-in | Tools |
 | --- | --- | --- | --- |
-| `just-domain` | `https://mcp.justdomain.ai/` | none | `search_domains`, `check_domain_transfer` (both read-only) |
+| `just-domain` | `https://mcp.justdomain.ai/` | none | `search_domains`, `check_domain_transfer`, `check_trademark` (all read-only) |
 | `just-publish` | `https://mcp.justpublish.ai/claude` | Just Publish account (OAuth) | `deploy`, `list_sites`, `get_site_files`, `update_site_file` |
 
 The Just Domain server also offers two prompts, `jd-check` and `jd-transfer-check`, and an
@@ -130,16 +139,21 @@ FAQ resource, `domain://faq`.
 The plugin runs no code of its own and connects to two places: the Just Domain server at
 `mcp.justdomain.ai` and the Just Publish server at `mcp.justpublish.ai`.
 
-When you ask about a domain, Claude sends the names to the Just Domain server, which, like
-any web service, also receives your network address and user agent. For each search, the
-server sends these to our product analytics: the names checked, how many results came back
-and whether any were available, which assistant and version made the request, an
-identifier for that chat session, and a pseudonymous identifier derived from your network
-address and user agent. Failed searches and request diagnostics also go to our error
-monitoring, and the server keeps operational logs. The registration link carries the same
-pseudonymous identifier: if you open it and sign in, the searches recorded under it are
-linked to your account in our analytics. See the
-[Just Domain privacy policy](https://justdomain.ai/privacy).
+When you ask about a domain or a trademark, Claude sends the names, and for a trademark
+what you will sell, to the Just Domain server, which, like any web service, also receives
+your network address and user agent. For each domain search, the server sends these to our
+product analytics: the names checked, how many results came back and whether any were
+available, which assistant and version made the request, an identifier for that chat
+session, and a pseudonymous identifier derived from your network address and user agent.
+Failed searches and request diagnostics also go to our error monitoring, and the server
+keeps operational logs. The registration link carries the same pseudonymous identifier: if
+you open it and sign in, the searches recorded under it are linked to your account in our
+analytics. See the [Just Domain privacy policy](https://justdomain.ai/privacy).
+
+If the server you reach does not offer `check_trademark` yet, Claude makes the same
+trademark check with its web tool at `api.opentrademarks.org`, the Open Trademarks API,
+which Just Done LLC also operates; that check is covered by the
+[Open Trademarks privacy policy](https://opentrademarks.org/privacy).
 
 When you publish, Claude sends your site's files to the Just Publish server, which puts
 them online at a public link that anyone can open. Your sites are filed under the Just
