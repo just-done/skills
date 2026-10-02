@@ -5,6 +5,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- `find-a-name` checks each shortlisted name against the trademark registers with
+  `check_trademark` before it checks domains. It shows the verdict, the conflicting marks
+  and the date each register was read, and drops a name with an exact live mark unless the
+  user holds the rights to it. On a server without `check_trademark`, it uses the Open
+  Trademarks API.
+
 ## [0.2.0] - 2026-10-18
 
 ### Added
