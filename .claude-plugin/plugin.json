@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "just",
   "displayName": "Just.",
-  "version": "0.1.0",
-  "description": "Find a name and a domain for the business you are building. Just Domain checks which domain names are available and what each costs to register and renew, and gives you a link to register the one you choose on justdomain.ai. It also checks whether anything blocks moving a domain you own elsewhere to Just Domain; support arranges the move by email. Read-only: no order is placed and no payment is taken in the chat; you register and pay on justdomain.ai. No account is needed to search.",
+  "version": "0.2.0",
+  "description": "Find a name and a domain for your business, and put your website online. Just Domain checks which domain names are available, what each costs to register and renew, and links to register one on justdomain.ai; no account is needed to search. Just Publish puts a static site live at a public link, edits it later and helps connect your domain; you sign in once. Nothing is bought in the chat: you register and pay on justdomain.ai.",
   "author": {
     "name": "Just.",
     "email": "support@just-done.ai",
@@ -15,11 +15,15 @@
   "keywords": [
     "just",
     "just-domain",
+    "just-publish",
     "domains",
     "domain-search",
     "domain-registration",
     "business-name",
     "registrar",
+    "website-publishing",
+    "static-site-hosting",
+    "publish",
     "mcp"
   ],
   "mcpServers": "./.mcp.json"

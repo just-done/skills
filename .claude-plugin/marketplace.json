@@ -7,13 +7,13 @@
     "url": "https://justdomain.ai"
   },
   "metadata": {
-    "description": "Plugins from Just, the maker of Just Domain."
+    "description": "Plugins from Just, the maker of Just Domain and Just Publish."
   },
   "plugins": [
     {
       "name": "just",
       "source": "./",
-      "description": "Find a name and a domain for the business you are building. Just Domain checks which domain names are available and what each costs to register and renew, and gives you a link to register the one you choose on justdomain.ai. It also checks whether anything blocks moving a domain you own elsewhere to Just Domain; support arranges the move by email. Read-only: no order is placed and no payment is taken in the chat; you register and pay on justdomain.ai. No account is needed to search.",
+      "description": "Find a name and a domain for your business, and put your website online. Just Domain checks which domain names are available, what each costs to register and renew, and links to register one on justdomain.ai; no account is needed to search. Just Publish puts a static site live at a public link, edits it later and helps connect your domain; you sign in once. Nothing is bought in the chat: you register and pay on justdomain.ai.",
       "category": "productivity"
     }
   ]
