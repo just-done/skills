@@ -67,7 +67,8 @@ HIDDEN_UNICODE = re.compile(
     "]"
 )
 
-# The registration hand-off that both skills send, line for line.
+# Skills that hand off a domain registration, and the block they send, line for line.
+HANDOFF_SKILLS = {"find-a-name", "just-domain"}
 HANDOFF_BLOCK = (
     "{fqdn} is available: {price form}, renews at {renewal form}.\n"
     "You create an account or sign in, then pay on justdomain.ai, in your browser. "
@@ -143,7 +144,7 @@ def check_skills() -> None:
             error(path, "description must not contain <, >, [ or ]")
         if len(body.splitlines()) > MAX_SKILL_BODY_LINES:
             error(path, f"body exceeds {MAX_SKILL_BODY_LINES} lines")
-        if HANDOFF_BLOCK not in text:
+        if path.parent.name in HANDOFF_SKILLS and HANDOFF_BLOCK not in text:
             error(path, "registration hand-off block is missing or differs from the other skills")
 
 
