@@ -7,7 +7,8 @@ recent release before reporting an issue.
 
 | Version | Supported |
 | ------- | --------- |
-| 0.1.x   | Yes       |
+| 0.2.x   | Yes       |
+| 0.1.x   | No        |
 
 ## Reporting a vulnerability
 
@@ -29,15 +30,18 @@ authorize testing Claude, GitHub or any other third-party service.
 ## Scope
 
 This repository contains the plugin manifests, skill instructions, documentation and the CI
-checks that validate them. The plugin runs no code of its own and stores no credentials.
+checks that validate them. The plugin runs no code of its own and stores no credentials; the
+client keeps the Just Publish sign-in.
 
 In scope:
 
 - Skill text that could lead an assistant to request, store or relay an authorization code
-  or other credential, to misstate what is charged or registered, or to follow hidden or
-  injected instructions.
-- Configuration that could point the plugin anywhere other than https://mcp.justdomain.ai/.
+  or other credential, to misstate what is charged or registered, to publish or replace
+  files the user did not ask to put online, or to follow hidden or injected instructions.
+- Configuration that could point the plugin anywhere other than https://mcp.justdomain.ai/
+  and https://mcp.justpublish.ai/claude.
 
-The plugin connects to the hosted Just Domain MCP server, which is public, requires no
-authentication and is read-only. Vulnerabilities in that server or on justdomain.ai can be
-reported to the same address.
+The plugin connects to two hosted MCP servers. The Just Domain server is public, requires
+no authentication and is read-only. The Just Publish server requires the user to sign in and
+publishes and edits that user's sites. Vulnerabilities in either server, on justdomain.ai
+or on justpublish.ai can be reported to the same address.

@@ -21,7 +21,7 @@ security issue, follow [SECURITY.md](SECURITY.md) instead of opening an issue.
 | --------------------------------- | ---------------------------------------------------------------- |
 | `.claude-plugin/plugin.json`      | Plugin manifest                                                  |
 | `.claude-plugin/marketplace.json` | Marketplace definition, so the repository can be installed directly |
-| `.mcp.json`                       | The hosted Just Domain MCP server the plugin connects to         |
+| `.mcp.json`                       | The hosted Just Domain and Just Publish MCP servers              |
 | `skills/<name>/SKILL.md`          | One skill per directory                                          |
 | `.github/workflows/validate.yml`  | Checks that run on every pull request                            |
 | `.github/scripts/`                | Helper scripts used by those checks                              |
@@ -59,8 +59,9 @@ Load the plugin from your working copy in a terminal session:
 claude --plugin-dir .
 ```
 
-Run `/mcp` and confirm that `plugin:just:just-domain` is connected, then try the example
-prompts from the [README](README.md). After editing a skill, run `/reload-plugins` to pick up
+Run `/mcp` and confirm that `plugin:just:just-domain` is connected. Select
+`plugin:just:just-publish` and sign in to Just Publish, then try the example prompts from the
+[README](README.md). After editing a skill, run `/reload-plugins` to pick up
 the change.
 
 To test in Cowork, archive your latest commit with `git archive --format=zip -o just.zip HEAD`
@@ -73,18 +74,19 @@ plugin description longer than 500 characters.
   directory name.
 - Keep descriptions to 1,024 characters or fewer, without `<`, `>`, `[` or `]`.
 - Say what the skill does and when to use it, including phrases a user is likely to say.
-- Refer to tools by their bare names, such as `search_domains`, so the same text works in
-  every client.
-- Describe only what the MCP server returns. Every price shown to a user must come from the
+- Refer to tools by their bare names, such as `search_domains` or `deploy`, so the same text
+  works in every client.
+- Describe only what the MCP servers return. Every price shown to a user must come from the
   tool response.
-- Keep the registration hand-off wording identical across skills. CI checks this.
+- Keep the registration hand-off wording identical in the skills that register a domain.
+  CI checks this.
 - Write in plain language and short sentences.
 
 ## Stable identifiers
 
-The plugin name `just`, the marketplace name `just-skills`, the MCP server key `just-domain`
-and the repository location are stable identifiers. Changing any of them breaks existing
-installations, so pull requests that rename them cannot be accepted.
+The plugin name `just`, the marketplace name `just-skills`, the MCP server keys `just-domain`
+and `just-publish` and the repository location are stable identifiers. Changing any of them
+breaks existing installations, so pull requests that rename them cannot be accepted.
 
 ## Versioning and releases
 
