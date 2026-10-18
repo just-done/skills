@@ -3,6 +3,10 @@
     "just-domain": {
       "type": "http",
       "url": "https://mcp.justdomain.ai/"
+    },
+    "just-publish": {
+      "type": "http",
+      "url": "https://mcp.justpublish.ai/claude"
     }
   }
 }

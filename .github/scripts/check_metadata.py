@@ -2,7 +2,7 @@
 """Consistency checks for the plugin manifests, the MCP configuration and the skills.
 
 These checks complement `claude plugin validate` and the Agent Skills reference
-validator. They keep the plugin limited to its manifests, one hosted MCP server and
+validator. They keep the plugin limited to its manifests, the hosted MCP servers and
 skill instructions, and keep the manifests and the skills consistent with each other.
 Run from the repository root:
 
@@ -26,8 +26,10 @@ ROOT = Path(__file__).resolve().parents[2]
 PLUGIN_NAME = "just"
 MARKETPLACE_NAME = "just-skills"
 MCP_CONFIG = "./.mcp.json"
-MCP_SERVER_KEY = "just-domain"
-MCP_SERVER_URL = "https://mcp.justdomain.ai/"
+MCP_SERVERS = {
+    "just-domain": "https://mcp.justdomain.ai/",
+    "just-publish": "https://mcp.justpublish.ai/claude",
+}
 
 ALLOWED_PLUGIN_KEYS = {
     "$schema",
@@ -65,7 +67,8 @@ HIDDEN_UNICODE = re.compile(
     "]"
 )
 
-# The registration hand-off that both skills send, line for line.
+# Skills that hand off a domain registration, and the block they send, line for line.
+HANDOFF_SKILLS = {"find-a-name", "just-domain"}
 HANDOFF_BLOCK = (
     "{fqdn} is available: {price form}, renews at {renewal form}.\n"
     "You create an account or sign in, then pay on justdomain.ai, in your browser. "
@@ -141,7 +144,7 @@ def check_skills() -> None:
             error(path, "description must not contain <, >, [ or ]")
         if len(body.splitlines()) > MAX_SKILL_BODY_LINES:
             error(path, f"body exceeds {MAX_SKILL_BODY_LINES} lines")
-        if HANDOFF_BLOCK not in text:
+        if path.parent.name in HANDOFF_SKILLS and HANDOFF_BLOCK not in text:
             error(path, "registration hand-off block is missing or differs from the other skills")
 
 
@@ -192,18 +195,20 @@ def check_manifests() -> None:
 def check_mcp() -> None:
     path = ROOT / ".mcp.json"
     servers = load_json(path).get("mcpServers", {})
-    if set(servers) != {MCP_SERVER_KEY}:
-        error(path, f"only the '{MCP_SERVER_KEY}' server may be configured")
-    server = servers.get(MCP_SERVER_KEY)
-    if server is None:
-        error(path, f"server key '{MCP_SERVER_KEY}' is missing")
-        return
-    if set(server) != {"type", "url"}:
-        error(path, "the server entry may only set type and url")
-    if server.get("type") != "http":
-        error(path, "server type must be 'http'")
-    if server.get("url") != MCP_SERVER_URL:
-        error(path, f"server URL must be {MCP_SERVER_URL}")
+    extra = sorted(set(servers) - set(MCP_SERVERS))
+    if extra:
+        error(path, f"unexpected servers: {', '.join(extra)}")
+    for key, url in MCP_SERVERS.items():
+        server = servers.get(key)
+        if server is None:
+            error(path, f"server key '{key}' is missing")
+            continue
+        if set(server) != {"type", "url"}:
+            error(path, f"the '{key}' entry may only set type and url")
+        if server.get("type") != "http":
+            error(path, f"the '{key}' server type must be 'http'")
+        if server.get("url") != url:
+            error(path, f"the '{key}' server URL must be {url}")
 
 
 def check_repository() -> None:

@@ -5,6 +5,25 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - Unreleased
+
+### Added
+
+- `just-publish` skill: publishes a static website to a live link with Just Publish, lists
+  the user's sites, reads a site's files and edits only the files that change, and explains
+  how to connect a custom domain from the dashboard. A user without a domain is sent to the
+  `just-domain` skill to find and register one.
+- Connection to the hosted Just Publish MCP server (`deploy`, `list_sites`,
+  `get_site_files`, `update_site_file`) over Streamable HTTP. It requires a one-time
+  sign-in to Just Publish.
+
+### Changed
+
+- The plugin and marketplace descriptions and keywords now cover publishing as well as
+  domains.
+- The metadata checks accept both MCP servers and require the registration hand-off block
+  only in the skills that register a domain.
+
 ## [0.1.0] - 2026-09-17
 
 ### Added
@@ -18,4 +37,5 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   over Streamable HTTP.
 - Marketplace definition for installing the plugin directly from this repository.
 
+[0.2.0]: https://github.com/just-done/skills/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/just-done/skills/releases/tag/v0.1.0
