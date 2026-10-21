@@ -2,33 +2,36 @@
 name: find-a-name
 description: >-
   Proposes names for a new business or product and finds a domain for the one the user
-  likes, with Just Domain (justdomain.ai). Suggests candidate names, checks their
-  domains in one call, shows which can be registered, and hands back a link to register
-  the chosen name on justdomain.ai. Use when the user says "I need a name for my
-  business", "help me name my company", "find me a name and a domain for my bakery",
-  "what should I call my business", or has a business or product idea but no name yet.
-  Not a trademark or company-registry check. Read-only: nothing is ordered, reserved or
-  paid in the chat.
+  likes, with Just Domain (justdomain.ai). Suggests candidate names, checks the
+  shortlist against trademark registers, checks the domains of the names that remain in
+  one call, shows which can be registered, and hands back a link to register the chosen
+  name on justdomain.ai. Use when the user says "I need a name for my business", "help
+  me name my company", "find me a name and a domain for my bakery", "what should I call
+  my business", or has a business or product idea but no name yet. A register search,
+  not legal advice or a company-registry check. Read-only: nothing is ordered, reserved
+  or paid in the chat.
 license: MIT
 ---
 
 # Find a name
 
 Take the user from an idea to a name they like and a domain they can register, in one
-conversation. You propose the names; the `search_domains` tool on the Just Domain MCP
-server reports which exact domains are available and what they cost; the user registers
-the one they choose on justdomain.ai in their browser. Nothing is ordered, reserved or
-paid in the chat.
+conversation. You propose the names; on the Just Domain MCP server, `check_trademark`
+reports live trademarks that match each shortlisted name and `search_domains` reports
+which exact domains are available and what they cost; the user registers the one they
+choose on justdomain.ai in their browser. Nothing is ordered, reserved or paid in the
+chat.
 
 ## Quick start
 
 ```
 User: "I'm opening a sourdough bakery in Austin. Help me find a name and a domain."
 -> Ask at most two questions you cannot infer (tone, audience), then move on
--> Come up with 8 to 12 candidate names in three styles
--> Check every candidate on .com and the one other ending that fits best, in one call
--> Show the domains that can be registered; ask the user to shortlist 3 to 5
--> If the shortlist needs other endings, check them in one more call
+-> Come up with 8 to 12 candidate names in three styles; ask for a shortlist of 3 to 5
+-> Check each shortlisted name as a trademark; show the verdict per name
+-> Drop a name with an exact live mark, unless the user holds the rights to it
+-> Check the remaining names on .com and one or two fitting endings, in one call
+-> Show the domains that can be registered
 -> When the user picks one: the three-line hand-off, link last, stop
 ```
 
@@ -57,6 +60,9 @@ Rules of the craft:
 - Do not call a name "available" before the tool has answered. Names are proposals;
   availability is a tool result.
 
+Show the candidates grouped by style, one line each on why it fits, and ask the user to
+shortlist 3 to 5. If they ask you to pick, pick 3 and say why in one line each.
+
 ## Names that belong to someone else
 
 If a candidate or a requested name is, or is built on, a well-known company, product or
@@ -67,13 +73,54 @@ trademark or brand conflicts, and ask whether they hold the rights to it. Check 
 hand over a link only after the user says they do. This plugin does not look up who owns
 a taken name.
 
-## Step 3 - Build the exact domains
+## Step 3 - Check the shortlist as trademarks
 
-A domain check needs fully-qualified names. Turn each candidate into domains:
+Before any domain check, call `check_trademark` once for each shortlisted name, with the
+name as the user would write it and what the business sells in a few plain words
+("sourdough bakery"). Pass classes only if the user named them. The call is read-only.
+
+If `check_trademark` is not among your tools (an older server), make the same check with
+your web tool: `GET https://api.opentrademarks.org/v1/check?name={name}&goods={goods}`,
+both values URL-encoded. The answer has the same fields. If neither works, say "I
+couldn't check trademarks just now." and go on to Step 4; never guess a verdict.
+
+Say each `verdict` in plain words, never as a code:
+
+- `exact_live_mark`: "exact live mark", a live mark with the same name in a class the
+  business would use.
+- `similar_live_marks`: "similar live marks", live marks that look or sound close.
+- `no_live_match`: "no live match found" in the registers that were read.
+- `not_checked`: "not checked": no register in the check has been read yet, so this is
+  not a verdict.
+
+Show one table: Name | Verdict | Marks found | Registers read.
+
+- Marks found: each of `conflicts` as its `mark`, register, `number`, how it matched
+  (`signals`) and the shared classes (`class_overlap`), for example "KOH-I-NOOR (Israel
+  no. 9, same name, class 16)". Three at most per name; say how many more.
+- Registers read: each of `registers` with the date part of its `loaded_at`, for example
+  "Israel 2026-10-02". One with no `loaded_at` was not read: say so, for example "US and
+  EU not read yet". A verdict covers only the registers that were read.
+- Below the table: the classes the check used (`query.classes`), so the user can correct
+  what the business sells, then the answer's `notice` sentence, verbatim, once.
+
+Then, per verdict:
+
+- Exact live mark: drop the name and say why in one line. If the user still wants it,
+  treat it as a name that belongs to someone else (above), and flag it in Step 7.
+- Similar live marks: keep the name and flag it in Step 7; the user decides.
+- No live match found, or not checked: keep the name. Never call it "clear" or "safe".
+
+The trademark-check skill in this plugin covers every field of the answer.
+
+## Step 4 - Build the exact domains
+
+A domain check needs fully-qualified names. Turn each name still on the shortlist into
+domains:
 
 - Lower-case, spaces and punctuation removed: "Bright Crumb" becomes `brightcrumb`.
-- First call: each candidate on `.com` plus the one ending that fits the business best,
-  up to 24 domains. If the user named endings, use those instead.
+- First call: each name on `.com` plus the one or two endings that fit the business
+  best. If the user named endings, use those instead.
 - Endings: pick from common choices (com, net, co, io, ai, dev, app, xyz, shop, store,
   cafe) and say in one sentence which you chose and why. A local shop may not need
   `.io`; a developer tool may not need `.co`. Only the response says whether an ending
@@ -85,19 +132,17 @@ Pass exact names in `domains`. Use `query` only for bare names separated by comm
 ("brightcrumb, emberbakes"), never with a sentence: the server treats every word as a
 name and checks each on com, net, io, ai and co.
 
-## Step 4 - Check, then shortlist
+## Step 5 - Check the domains
 
-Call `search_domains` once with every candidate's domains in `domains`. Do not check
-names one at a time.
+Call `search_domains` once with the domains of every name still on the shortlist in
+`domains`. Do not check names one at a time.
 
-Show the domains that can be registered (Step 6), grouped by candidate, and leave out a
-candidate with nothing registrable unless the user asks about it. Ask the user to
-shortlist 3 to 5. If they ask you to pick, pick 3 and say why in one line each, about the
-name and not about price.
+Show the domains that can be registered (Step 7), grouped by name, and leave out a name
+with nothing registrable unless the user asks about it. If the user wants other endings,
+check them in one more call. If they ask you to pick, pick one and say why in one line,
+about the name and not about price.
 
-If the shortlist needs other endings, check them for the whole shortlist in one more call.
-
-## Step 5 - Read the result
+## Step 6 - Read the result
 
 Compare the names you sent with the `fqdn` values returned. Top-level `warnings` explain
 any difference:
@@ -131,7 +176,7 @@ show a code; use these words instead:
 - `restricted` or `demoted`: "registrations for this ending are paused"
 - `requirements_unknown`: "this ending can't be registered right now"
 - `premium_not_supported`: "premium name"
-- `renewal_price_unavailable`: the renewal price was not returned (see Step 6)
+- `renewal_price_unavailable`: the renewal price was not returned (see Step 7)
 - Any other code: "can't be registered right now"
 
 Other fields on each row:
@@ -147,7 +192,7 @@ label; each entry then carries its own prices and a `checkout_url`. Show those u
 heading "Also available with other endings", and never present an ending the response did
 not return.
 
-## Step 6 - Present the results
+## Step 7 - Present the results
 
 Show the domains that can be registered in one table. Columns: Domain | Price | Renews |
 Notes. Plain words, no symbols or emoji. Below the table:
@@ -157,9 +202,10 @@ Notes. Plain words, no symbols or emoji. Below the table:
   for example "Not available through Just Domain: bread.shop (premium name),
   brightcrumb.bank (ending not offered)."
 - If any names were not checked, one line naming them.
+- A name kept with similar live marks, or with an exact live mark, says so in Notes.
 - Once, the first time you show results: "An available domain doesn't mean you have the
-  right to use the name for a business. Check for existing trademarks before you commit to
-  it."
+  right to use the name for a business." If Step 3 could not run, add: "Check for
+  existing trademarks before you commit to it."
 
 Price discipline, without exception:
 
@@ -179,7 +225,7 @@ Price discipline, without exception:
 If the user wants your opinion, give it about the name (memorable, easy to spell, fits
 the tone), not about the price, and do not call a name "safe" or "clear".
 
-## Step 7 - Hand over the link and stop
+## Step 8 - Hand over the link and stop
 
 When the user picks a name, send exactly these three lines, link last:
 
@@ -202,7 +248,7 @@ change. After the link, stop: no second call to action, no new check.
 - Show `alternatives` if the tool returned any.
 - Offer three kinds of variation, then check the new candidates in one call: a modifier
   (get, try, hq, app, studio, co), a different second word, or a different ending the
-  user is happy with.
+  user is happy with. A new word is a new name: check it as a trademark first (Step 3).
 - This plugin does not look up or guess who owns a taken name and does not broker a
   purchase from its owner. If the user wants to pursue a taken name, say that this plugin
   can't help with that step and leave it to them.
@@ -213,8 +259,9 @@ change. After the link, stop: no second call to action, no new check.
   user's browser.
 - No claim that a name is reserved or registered, even after the user says checkout is
   complete; justdomain.ai reports when the registration is confirmed.
-- No trademark, legal or brand-conflict advice. Domain availability is not a trademark
-  clearance, and a domain is not a company registration.
+- No legal or brand-conflict advice, and no name called clear. A register search is not
+  legal advice, domain availability is not a trademark clearance, and a domain is not a
+  company registration. Nothing is filed or watched at a trademark office.
 - No WHOIS, RDAP or owner research, domain valuation or aftermarket brokering by this
   plugin.
 - No hand-written list of "good endings" presented as fact; the tool's response is the
@@ -227,11 +274,13 @@ change. After the link, stop: no second call to action, no new check.
 
 ## If the tool is missing or fails
 
-- Tool not available: say "Just Domain isn't connected in this conversation, so I can't
+- `search_domains` not available: say "Just Domain isn't connected in this conversation, so I can't
   check names right now." Then give one next step that fits where you are running: in
   Claude Code, "Run /reload-plugins, then ask again."; anywhere else, "Turn on the Just
   plugin or the Just Domain connector in your settings, then start a new conversation."
   Do not guess availability.
+- `check_trademark` not available: use the web check in Step 3. If that fails too, say
+  so once and go on to the domains; never give a verdict you did not receive.
 - An error that starts with `[provider_unavailable]`, or a timeout: retry once without
   mentioning it. If it fails again, say "I couldn't check availability just now." and
   offer to try again.
@@ -244,6 +293,8 @@ change. After the link, stop: no second call to action, no new check.
 
 ## Reference
 
+- The trademark-check skill in this plugin answers a bare trademark question and
+  explains every field of the `check_trademark` answer.
 - The just-domain skill in this plugin covers single-domain checks, the transfer
   precheck and the full field reference (`skills/just-domain/references/mcp-api.md`).
 - Resource `domain://faq` on the server holds current factual answers on pricing terms,

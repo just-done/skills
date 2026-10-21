@@ -5,6 +5,24 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - Unreleased
+
+### Added
+
+- `trademark-check` skill: checks whether a name is taken as a trademark in the US, EU and
+  Israeli registers with `check_trademark`, and reports the verdict, the conflicting marks,
+  the classes they share and the date each register was read, with the answer's notice.
+  It never calls a name clear unless it was checked in the conversation and the registers
+  were read today or yesterday, and says plainly when a name could not be checked yet.
+
+### Changed
+
+- `find-a-name` checks each shortlisted name against the trademark registers with
+  `check_trademark` before it checks domains. It shows the verdict, the conflicting marks
+  and the date each register was read, and drops a name with an exact live mark unless the
+  user holds the rights to it. On a server without `check_trademark`, it uses the Open
+  Trademarks API.
+
 ## [0.2.0] - 2026-10-18
 
 ### Added
@@ -37,5 +55,6 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   over Streamable HTTP.
 - Marketplace definition for installing the plugin directly from this repository.
 
+[0.3.0]: https://github.com/just-done/skills/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/just-done/skills/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/just-done/skills/releases/tag/v0.1.0
