@@ -9,6 +9,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- A listing icon at `.claude-plugin/icon.png`.
 - `trademark-check` skill: checks whether a name is taken as a trademark in the US, EU and
   Israeli registers with `check_trademark`, and reports the verdict, the conflicting marks,
   the classes they share and the date each register was read, with the answer's notice.
@@ -17,6 +18,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- The plugin description leads with the business being built, and the homepage is
+  https://just-done.ai, which covers both Just Domain and Just Publish.
 - `find-a-name` checks each shortlisted name against the trademark registers with
   `check_trademark` before it checks domains. It shows the verdict, the conflicting marks
   and the date each register was read, and drops a name with an exact live mark unless the
