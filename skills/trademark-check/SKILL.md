@@ -2,10 +2,9 @@
 name: trademark-check
 description: >-
   Checks whether a name is already taken as a trademark, with Open Trademarks
-  (opentrademarks.org) through the Just Domain connector: one verdict across the US, EU
-  and Israeli trademark registers, the live marks that match or resemble the name, the
-  classes they share with what the user will sell, and the date each register was last
-  read. Use when the user asks "is this name taken as a trademark", "is Brightcrumb
+  (opentrademarks.org) through the Just Domain connector: one verdict across the trademark
+  registers it has read, the live marks that match or resemble the name, the classes they
+  share with what the user will sell, and the date each register was last read. Use when the user asks "is this name taken as a trademark", "is Brightcrumb
   trademarked", "does anyone own the trademark for Acme", "check these names against
   trademark registers" or "is there a trademark on my business name". A register search,
   not legal advice or a clearance. Read-only: nothing is filed, registered or watched in
@@ -33,7 +32,7 @@ Without exception:
 - A verdict from memory, from earlier knowledge or from another site does not count.
   Check again.
 - Even when the rule allows it, say what was searched and what was found ("No live match
-  in the US, EU and Israeli registers, read 2026-10-02"), then the notice. Never "safe",
+  in the Israeli register, read 2026-10-02; the US and EU registers were not read yet"), then the notice. Never "safe",
   "free to use" or "you can use it".
 
 ## Quick start

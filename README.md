@@ -13,9 +13,10 @@ you ask, and helps you connect your domain.
 - **Publishing is free.** Sign in to Just Publish once and every site is filed under your
   account.
 - **Nothing is bought in the chat.** You register and pay on justdomain.ai, in your browser.
-- **Is the name taken as a trademark?** Ask, and Claude searches the US, EU and Israeli
-  trademark registers with [Open Trademarks](https://opentrademarks.org), showing the
-  marks it found and the date each register was last read.
+- **Is the name taken as a trademark?** Ask, and Claude searches the trademark registers
+  that [Open Trademarks](https://opentrademarks.org) has loaded, showing the marks it
+  found and the date each register was last read. A register that has not been loaded
+  is reported as not checked.
 - **Already own a domain?** Ask whether anything blocks moving it to Just Domain and what
   the move costs, or connect it to your site.
 
@@ -37,6 +38,17 @@ and the Just Publish server at `https://mcp.justpublish.ai/claude`.
 /plugin install just@just-skills
 /reload-plugins
 ```
+
+### Cursor
+
+1. In Cursor, open **Customize**.
+2. Choose **From GitHub Repository** and enter `just-done/skills`.
+3. Reload the window. **Just.** shows its skills and the `just-domain` and `just-publish`
+   servers.
+
+Cursor reads `.cursor-plugin/plugin.json` and connects to the servers listed in
+`cursor/mcp.json`. Use either the plugin or a server you added to Cursor by hand, not
+both, so each tool appears once.
 
 ### Cowork
 
@@ -80,7 +92,7 @@ Claude uses a skill when your request matches it, or you can run one by name.
 | `/just:find-a-name` | Suggests names for your business, checks your shortlist against trademark registers, checks the domains of the names that remain, shows which ones you can register and gives you a link to register the one you pick. |
 | `/just:just-domain` | Checks specific domains: whether each is available, what it costs to register and renew, and a link to register it. Also checks whether anything blocks moving a domain you own elsewhere to Just Domain, and what the move costs. |
 | `/just:just-publish` | Publishes a static website to a live link, lists your sites, changes a site that is already live, and explains how to put it on your own domain. |
-| `/just:trademark-check` | Checks whether a name is taken as a trademark in the US, EU and Israeli registers: the verdict, the marks it found, the classes they share and the date each register was last read. |
+| `/just:trademark-check` | Checks whether a name is taken as a trademark in the registers Open Trademarks has loaded: the verdict, the marks it found, the classes they share and the date each register was last read. |
 
 ## Example prompts
 
@@ -131,6 +143,10 @@ dashboard on justpublish.ai, in your browser.
 | `just-domain` | `https://mcp.justdomain.ai/` | none | `search_domains`, `check_domain_transfer`, `check_trademark` (all read-only) |
 | `just-publish` | `https://mcp.justpublish.ai/claude` | Just Publish account (OAuth) | `deploy`, `list_sites`, `get_site_files`, `update_site_file` |
 
+In Cursor, the plugin connects to the same Just Domain server and to Just Publish at
+`https://mcp.justpublish.ai/`, and sends the header `X-Cursor-Plugin: just` so the
+servers can tell a plugin install from a server added by hand.
+
 The Just Domain server also offers two prompts, `jd-check` and `jd-transfer-check`, and an
 FAQ resource, `domain://faq`.
 
@@ -169,6 +185,10 @@ Send privacy requests to privacy@just-done.ai.
   `plugin:just:just-domain` and `plugin:just:just-publish`. In Cowork, open **Customize**,
   then **Plugins**, and check that **Just.** is turned on and its Just Domain and Just
   Publish connectors show **Connected**.
+- **Cursor shows no Just tools.** Open **Customize**, select **Just.** and check that
+  `just-domain` and `just-publish` are turned on. Just Publish asks you to sign in the
+  first time; finish the sign-in in one go, since Cursor stops waiting after a few
+  minutes.
 - **Cowork asks before each search.** In **Manual** mode, Cowork asks before it uses a tool.
   Choose **Allow once**, or pick another mode for the task.
 - **The registration link opens a sign-up page.** This is expected: create an account, or

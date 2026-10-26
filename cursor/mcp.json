@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "just-domain": {
+      "type": "http",
+      "url": "https://mcp.justdomain.ai/",
+      "headers": {
+        "X-Cursor-Plugin": "just"
+      }
+    },
+    "just-publish": {
+      "type": "http",
+      "url": "https://mcp.justpublish.ai/",
+      "headers": {
+        "X-Cursor-Plugin": "just"
+      }
+    }
+  }
+}

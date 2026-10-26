@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Consistency checks for the plugin manifests, the MCP configuration and the skills.
+"""Consistency checks for the plugin manifests, the MCP configurations and the skills.
 
 These checks complement `claude plugin validate` and the Agent Skills reference
 validator. They keep the plugin limited to its manifests, the hosted MCP servers and
@@ -45,6 +45,35 @@ ALLOWED_PLUGIN_KEYS = {
     "mcpServers",
 }
 ALLOWED_SKILL_KEYS = {"name", "description", "license"}
+
+# Cursor reads its own manifest and server list. The keys below are the subset of
+# Cursor's plugin and marketplace schemas (github.com/cursor/plugins, schemas/) that this
+# plugin uses; the schemas reject any key they do not define.
+CURSOR_MCP_CONFIG = "./cursor/mcp.json"
+CURSOR_SKILLS = "./skills/"
+CURSOR_LOGO = "assets/logo.png"
+CURSOR_MCP_SERVERS = {
+    "just-domain": "https://mcp.justdomain.ai/",
+    "just-publish": "https://mcp.justpublish.ai/",
+}
+CURSOR_PLUGIN_HEADER = {"X-Cursor-Plugin": PLUGIN_NAME}
+ALLOWED_CURSOR_PLUGIN_KEYS = {
+    "name",
+    "displayName",
+    "version",
+    "description",
+    "author",
+    "homepage",
+    "repository",
+    "license",
+    "keywords",
+    "logo",
+    "category",
+    "skills",
+    "mcpServers",
+}
+ALLOWED_CURSOR_AUTHOR_KEYS = {"name", "email"}
+ALLOWED_CURSOR_ENTRY_KEYS = {"name", "source", "description"}
 # claude.ai and Cowork reject a plugin whose description is longer than this on upload.
 MAX_PLUGIN_DESCRIPTION = 500
 MAX_SKILL_NAME = 64
@@ -211,6 +240,68 @@ def check_mcp() -> None:
             error(path, f"the '{key}' server URL must be {url}")
 
 
+def check_cursor() -> None:
+    claude = load_json(ROOT / ".claude-plugin" / "plugin.json")
+    plugin_path = ROOT / ".cursor-plugin" / "plugin.json"
+    marketplace_path = ROOT / ".cursor-plugin" / "marketplace.json"
+    mcp_path = ROOT / "cursor" / "mcp.json"
+    plugin = load_json(plugin_path)
+    marketplace = load_json(marketplace_path)
+
+    extra = sorted(set(plugin) - ALLOWED_CURSOR_PLUGIN_KEYS)
+    if extra:
+        error(plugin_path, f"unsupported manifest keys: {', '.join(extra)}")
+    for key in ("name", "displayName", "version", "repository", "license", "keywords"):
+        if plugin.get(key) != claude.get(key):
+            error(plugin_path, f"{key} must match .claude-plugin/plugin.json")
+    author = plugin.get("author", {})
+    if not isinstance(author, dict) or set(author) - ALLOWED_CURSOR_AUTHOR_KEYS:
+        error(plugin_path, "author may only set name and email")
+    elif any(author.get(key) != claude.get("author", {}).get(key) for key in ALLOWED_CURSOR_AUTHOR_KEYS):
+        error(plugin_path, "author name and email must match .claude-plugin/plugin.json")
+    description = plugin.get("description", "")
+    if description != description.strip() or not 10 <= len(description) <= MAX_PLUGIN_DESCRIPTION:
+        error(plugin_path, f"description must be 10 to {MAX_PLUGIN_DESCRIPTION} characters without surrounding whitespace")
+    if plugin.get("skills") != CURSOR_SKILLS:
+        error(plugin_path, f"skills must be {CURSOR_SKILLS}")
+    if plugin.get("mcpServers") != CURSOR_MCP_CONFIG:
+        error(plugin_path, f"mcpServers must be {CURSOR_MCP_CONFIG}")
+    if plugin.get("logo") != CURSOR_LOGO or not (ROOT / CURSOR_LOGO).is_file():
+        error(plugin_path, f"logo must be {CURSOR_LOGO} and the file must exist")
+
+    if marketplace.get("name") != MARKETPLACE_NAME:
+        error(marketplace_path, f"marketplace name must remain '{MARKETPLACE_NAME}'")
+    if set(marketplace.get("owner", {})) - ALLOWED_CURSOR_AUTHOR_KEYS:
+        error(marketplace_path, "owner may only set name and email")
+    entries = marketplace.get("plugins", [])
+    if len(entries) != 1:
+        error(marketplace_path, "marketplace must list exactly one plugin")
+    else:
+        entry = entries[0]
+        if set(entry) - ALLOWED_CURSOR_ENTRY_KEYS:
+            error(marketplace_path, "a plugin entry may only set name, source and description")
+        if entry.get("name") != PLUGIN_NAME or entry.get("source") != "./":
+            error(marketplace_path, f"the plugin entry must be '{PLUGIN_NAME}' at ./")
+        if entry.get("description") != description:
+            error(marketplace_path, "plugin entry description must match .cursor-plugin/plugin.json")
+
+    servers = load_json(mcp_path).get("mcpServers", {})
+    if set(servers) != set(CURSOR_MCP_SERVERS):
+        error(mcp_path, f"servers must be exactly: {', '.join(CURSOR_MCP_SERVERS)}")
+    for key, url in CURSOR_MCP_SERVERS.items():
+        server = servers.get(key)
+        if server is None:
+            continue
+        if set(server) != {"type", "url", "headers"}:
+            error(mcp_path, f"the '{key}' entry may only set type, url and headers")
+        if server.get("type") != "http":
+            error(mcp_path, f"the '{key}' server type must be 'http'")
+        if server.get("url") != url:
+            error(mcp_path, f"the '{key}' server URL must be {url}")
+        if server.get("headers") != CURSOR_PLUGIN_HEADER:
+            error(mcp_path, f"the '{key}' entry must send only the header X-Cursor-Plugin: {PLUGIN_NAME}")
+
+
 def check_repository() -> None:
     for entry in DISALLOWED_ROOT_ENTRIES:
         if (ROOT / entry).exists():
@@ -232,6 +323,7 @@ def main() -> int:
     check_skills()
     check_manifests()
     check_mcp()
+    check_cursor()
     check_repository()
     if errors:
         print("\n".join(errors))

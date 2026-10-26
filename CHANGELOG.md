@@ -5,6 +5,24 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - Unreleased
+
+### Added
+
+- Cursor support: a Cursor manifest at `.cursor-plugin/plugin.json`, a Cursor marketplace
+  file at `.cursor-plugin/marketplace.json` and a Cursor server list at `cursor/mcp.json`.
+  In Cursor the plugin connects to Just Domain at `https://mcp.justdomain.ai/` and to Just
+  Publish at `https://mcp.justpublish.ai/`, and sends `X-Cursor-Plugin: just` to both.
+- The plugin logo at `assets/logo.png` and `assets/logo.svg`.
+- Metadata checks for the Cursor files: the keys Cursor's schemas allow, parity with the
+  Claude manifest, both server addresses and the header.
+
+### Changed
+
+- `trademark-check` no longer names the US, EU and Israeli registers as covered: its
+  description speaks of the registers Open Trademarks has read, and its example reports a
+  register that was not read yet. The README describes the trademark check the same way.
+
 ## [0.4.0] - Unreleased
 
 ### Added
@@ -74,6 +92,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   over Streamable HTTP.
 - Marketplace definition for installing the plugin directly from this repository.
 
+[0.5.0]: https://github.com/just-done/skills/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/just-done/skills/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/just-done/skills/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/just-done/skills/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/just-done/skills/releases/tag/v0.1.0
