@@ -38,6 +38,17 @@ and the Just Publish server at `https://mcp.justpublish.ai/claude`.
 /reload-plugins
 ```
 
+### Cursor
+
+1. In Cursor, open **Customize**.
+2. Choose **From GitHub Repository** and enter `just-done/skills`.
+3. Reload the window. **Just.** shows its skills and the `just-domain` and `just-publish`
+   servers.
+
+Cursor reads `.cursor-plugin/plugin.json` and connects to the servers listed in
+`cursor/mcp.json`. Use either the plugin or a server you added to Cursor by hand, not
+both, so each tool appears once.
+
 ### Cowork
 
 1. In the Claude app or on claude.ai, open **Customize**, then **Plugins**.
@@ -131,6 +142,10 @@ dashboard on justpublish.ai, in your browser.
 | `just-domain` | `https://mcp.justdomain.ai/` | none | `search_domains`, `check_domain_transfer`, `check_trademark` (all read-only) |
 | `just-publish` | `https://mcp.justpublish.ai/claude` | Just Publish account (OAuth) | `deploy`, `list_sites`, `get_site_files`, `update_site_file` |
 
+In Cursor, the plugin connects to the same Just Domain server and to Just Publish at
+`https://mcp.justpublish.ai/`, and sends the header `X-Cursor-Plugin: just` so the
+servers can tell a plugin install from a server added by hand.
+
 The Just Domain server also offers two prompts, `jd-check` and `jd-transfer-check`, and an
 FAQ resource, `domain://faq`.
 
@@ -169,6 +184,10 @@ Send privacy requests to privacy@just-done.ai.
   `plugin:just:just-domain` and `plugin:just:just-publish`. In Cowork, open **Customize**,
   then **Plugins**, and check that **Just.** is turned on and its Just Domain and Just
   Publish connectors show **Connected**.
+- **Cursor shows no Just tools.** Open **Customize**, select **Just.** and check that
+  `just-domain` and `just-publish` are turned on. Just Publish asks you to sign in the
+  first time; finish the sign-in in one go, since Cursor stops waiting after a few
+  minutes.
 - **Cowork asks before each search.** In **Manual** mode, Cowork asks before it uses a tool.
   Choose **Allow once**, or pick another mode for the task.
 - **The registration link opens a sign-up page.** This is expected: create an account, or

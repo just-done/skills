@@ -14,6 +14,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   Just Publish connects at `https://mcp.justpublish.ai/`, where clients added by hand sign in.
 - `gemini-extension.json` for the Gemini CLI extensions gallery, with both servers over
   Streamable HTTP.
+- Cursor support: a Cursor manifest at `.cursor-plugin/plugin.json`, a Cursor marketplace
+  file at `.cursor-plugin/marketplace.json` and a Cursor server list at `cursor/mcp.json`.
+  In Cursor the plugin connects to Just Domain at `https://mcp.justdomain.ai/` and to Just
+  Publish at `https://mcp.justpublish.ai/`, and sends `X-Cursor-Plugin: just` to both.
+- The plugin logo at `assets/logo.png` and `assets/logo.svg`.
+- Metadata checks for the Cursor files: the keys Cursor's schemas allow, parity with the
+  Claude manifest, both server addresses and the header.
 
 ### Changed
 
@@ -74,6 +81,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   over Streamable HTTP.
 - Marketplace definition for installing the plugin directly from this repository.
 
+[0.4.0]: https://github.com/just-done/skills/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/just-done/skills/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/just-done/skills/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/just-done/skills/releases/tag/v0.1.0
