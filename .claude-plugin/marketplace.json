@@ -13,7 +13,7 @@
     {
       "name": "just",
       "source": "./",
-      "description": "For the business you are building with AI: find its name, claim its domain and put its website online. Just Domain checks a name against trademark registers, shows which domain names are available and links to register one on justdomain.ai; searching is free and needs no account. Just Publish puts your site live at a public link, edits it later and helps connect your domain; you sign in once. Nothing is bought in the chat: you register and pay on justdomain.ai.",
+      "description": "For the business you are building with AI, Just Domain finds the name and Just Publish puts the website online. Just Domain shows which domain names are available and both prices, and links to register one on justdomain.ai. Searching needs no account. Just Publish puts your site live at a public link and changes it later; you sign in once. Nothing is bought in the chat. You register and pay on justdomain.ai.",
       "category": "productivity"
     }
   ]
