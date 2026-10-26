@@ -24,6 +24,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- `trademark-check` no longer names the US, EU and Israeli registers as covered: its
+  description speaks of the registers Open Trademarks has read, and its example reports a
+  register that was not read yet. The README describes the trademark check the same way.
 - The plugin and marketplace descriptions are shorter and name what each product does:
   Just Domain shows which domain names are available and both prices; Just Publish puts
   the site live at a public link.
