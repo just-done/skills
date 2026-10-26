@@ -5,6 +5,22 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - Unreleased
+
+### Added
+
+- A portable Agent Plugins manifest (`plugin.json` and `mcp.json` at the root), read by
+  Kiro as a Power and by Codex, with the Codex listing fields under `extensions.com.openai`.
+  Just Publish connects at `https://mcp.justpublish.ai/`, where clients added by hand sign in.
+- `gemini-extension.json` for the Gemini CLI extensions gallery, with both servers over
+  Streamable HTTP.
+
+### Changed
+
+- The plugin and marketplace descriptions are shorter and name what each product does:
+  Just Domain shows which domain names are available and both prices; Just Publish puts
+  the site live at a public link.
+
 ## [0.3.0] - Unreleased
 
 ### Added

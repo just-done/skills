@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "just-domain": {
+      "type": "streamable-http",
+      "url": "https://mcp.justdomain.ai/"
+    },
+    "just-publish": {
+      "type": "streamable-http",
+      "url": "https://mcp.justpublish.ai/"
+    }
+  }
+}
