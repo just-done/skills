@@ -1,0 +1,47 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "just",
+  "version": "0.3.0",
+  "description": "For the business you are building with AI, Just Domain finds the name and Just Publish puts the website online. Just Domain shows which domain names are available and both prices, and links to register one on justdomain.ai. Searching needs no account. Just Publish puts your site live at a public link and changes it later; you sign in once. Nothing is bought in the chat. You register and pay on justdomain.ai.",
+  "author": {
+    "name": "Just.",
+    "email": "support@just-done.ai",
+    "url": "https://just-done.ai"
+  },
+  "homepage": "https://just-done.ai",
+  "repository": "https://github.com/just-done/skills",
+  "license": "MIT",
+  "keywords": [
+    "domains",
+    "domain-names",
+    "domain-search",
+    "registrar",
+    "website",
+    "hosting",
+    "publish",
+    "mcp"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Just.",
+        "shortDescription": "Domain names and websites for the business you are building with AI.",
+        "longDescription": "For the business you are building with AI, Just Domain finds the name and Just Publish puts the website online. Just Domain shows which domain names are available and both prices, and links to register one on justdomain.ai. Searching needs no account. Just Publish puts your site live at a public link and changes it later; you sign in once. Nothing is bought in the chat. You register and pay on justdomain.ai.",
+        "developerName": "Just Done, LLC",
+        "category": "Productivity",
+        "capabilities": ["Interactive", "Read"],
+        "websiteURL": "https://just-done.ai",
+        "privacyPolicyURL": "https://justdomain.ai/privacy",
+        "termsOfServiceURL": "https://justdomain.ai/terms-and-conditions",
+        "defaultPrompt": [
+          "I'm starting a business. Find me a domain name that's available.",
+          "I built a landing page with you - put it online and give me a link.",
+          "Can my domain at another registrar move to Just Domain?"
+        ],
+        "brandColor": "#D97757",
+        "composerIcon": "./.claude-plugin/icon.png",
+        "logo": "./.claude-plugin/icon.png"
+      }
+    }
+  }
+}
