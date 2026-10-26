@@ -17,12 +17,14 @@ license: MIT
 
 Just Domain (https://justdomain.ai) sells and manages domain names. It registers them
 through an ICANN-accredited registrar partner and is not itself ICANN-accredited; say so
-if asked. This skill uses two read-only tools on its MCP server:
+if asked. Its MCP server has three read-only tools. This skill uses two of them:
 
 - `search_domains`: availability and pricing for exact domain names, with a link to
   register the available ones.
 - `check_domain_transfer`: a transfer precheck for one domain the user already holds
   elsewhere.
+
+The third, `check_trademark`, belongs to the trademark-check skill.
 
 Both look up information only: no order is created, no payment is taken, and nothing
 about anybody's domain is changed. Registration happens in the user's browser on
@@ -299,7 +301,8 @@ state a renewal date, a charge or a reminder schedule on your own.
 
 ## Reference
 
-- `references/mcp-api.md`: every field of both tools, the codes and the errors.
+- `references/mcp-api.md`: every field of the two tools this skill uses, the codes and
+  the errors.
 - Resource `domain://faq` on the server holds current factual answers on pricing terms,
   WHOIS privacy, DNS, refunds, renewals, transfers and what is not supported yet.
 - Prompts `jd-check` and `jd-transfer-check` on the server start a check.

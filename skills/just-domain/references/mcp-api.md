@@ -1,7 +1,9 @@
 # Just Domain - tool field reference
 
-Endpoint `https://mcp.justdomain.ai/`, MCP over Streamable HTTP, no sign-in. Both
-tools are read-only: no order is created and no payment is taken through them.
+Endpoint `https://mcp.justdomain.ai/`, MCP over Streamable HTTP, no sign-in. The server
+has three tools, all read-only: no order is created and no payment is taken through them.
+This file covers `search_domains` and `check_domain_transfer`; `check_trademark` is
+described in the trademark-check skill.
 
 ## `search_domains`
 
