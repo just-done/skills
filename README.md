@@ -13,9 +13,10 @@ you ask, and helps you connect your domain.
 - **Publishing is free.** Sign in to Just Publish once and every site is filed under your
   account.
 - **Nothing is bought in the chat.** You register and pay on justdomain.ai, in your browser.
-- **Is the name taken as a trademark?** Ask, and Claude searches the US, EU and Israeli
-  trademark registers with [Open Trademarks](https://opentrademarks.org), showing the
-  marks it found and the date each register was last read.
+- **Is the name taken as a trademark?** Ask, and Claude searches the trademark registers
+  that [Open Trademarks](https://opentrademarks.org) has loaded, showing the marks it
+  found and the date each register was last read. A register that has not been loaded
+  is reported as not checked.
 - **Already own a domain?** Ask whether anything blocks moving it to Just Domain and what
   the move costs, or connect it to your site.
 
@@ -91,7 +92,7 @@ Claude uses a skill when your request matches it, or you can run one by name.
 | `/just:find-a-name` | Suggests names for your business, checks your shortlist against trademark registers, checks the domains of the names that remain, shows which ones you can register and gives you a link to register the one you pick. |
 | `/just:just-domain` | Checks specific domains: whether each is available, what it costs to register and renew, and a link to register it. Also checks whether anything blocks moving a domain you own elsewhere to Just Domain, and what the move costs. |
 | `/just:just-publish` | Publishes a static website to a live link, lists your sites, changes a site that is already live, and explains how to put it on your own domain. |
-| `/just:trademark-check` | Checks whether a name is taken as a trademark in the US, EU and Israeli registers: the verdict, the marks it found, the classes they share and the date each register was last read. |
+| `/just:trademark-check` | Checks whether a name is taken as a trademark in the registers Open Trademarks has loaded: the verdict, the marks it found, the classes they share and the date each register was last read. |
 
 ## Example prompts
 
