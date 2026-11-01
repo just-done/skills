@@ -113,7 +113,7 @@ not from the chat. There is no tool for it.
    on justdomain.ai, in their browser. Then they come back to the dashboard and connect
    it.
 
-A custom domain comes with Builder, the $9 a month plan for that site. The free link
+A custom domain comes with Builder, a paid plan for that site. The free link
 keeps working next to it. The domain name itself is bought separately. For anything
 else about plans and prices, send the user to https://justpublish.ai/pricing.
 
