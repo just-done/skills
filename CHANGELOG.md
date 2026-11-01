@@ -5,6 +5,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2026-11-01
+
+### Changed
+
+- The `trademark-search` keyword is gone from both manifests: the trademark check is
+  `check_trademark` on the Just Domain server.
+- `just-domain` says its server has three tools and that `check_trademark` belongs to
+  `trademark-check`; `references/mcp-api.md` says which two tools it covers.
+- `just-publish` no longer states a plan price; it sends the user to the pricing page.
+
 ## [0.5.0] - 2026-10-26
 
 ### Added
@@ -19,11 +29,6 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
-- The `trademark-search` keyword is gone from both manifests: the trademark check is
-  `check_trademark` on the Just Domain server.
-- `just-domain` says its server has three tools and that `check_trademark` belongs to
-  `trademark-check`; `references/mcp-api.md` says which two tools it covers.
-- `just-publish` no longer states a plan price; it sends the user to the pricing page.
 - `trademark-check` no longer names the US, EU and Israeli registers as covered: its
   description speaks of the registers Open Trademarks has read, and its example reports a
   register that was not read yet. The README describes the trademark check the same way.
